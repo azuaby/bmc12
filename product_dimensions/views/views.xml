@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <record id="view_sale_order_form_inherit_sale_dimension" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="sequence">10</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('product_tmpl_id', '=', product_template)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="before">
+                <field name="product_template"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="after">
+                <field name="uom_length" invisible="True"/>
+                <field name="uom_width" invisible="True"/>
+                <field name="uom_height" invisible="True"/>
+                <field name="length" attrs="{'readonly':[('uom_length','=',False)]}"/>
+                <field name="width" attrs="{'readonly':[('uom_width','=',False)]}"/>
+                <field name="height" attrs="{'readonly':[('uom_height','=',False)]}"/>
+                <field name="volume"/>
+            </xpath>
+
+            <xpath expr="//label[@for='product_uom_qty']" position="attributes">
+                <attribute name="for">product_quantity</attribute>
+                <attribute name="string"/>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_uom_qty']" position="before">
+                <field name="product_quantity" class="oe_inline" string="Product Qty"/>
+            </xpath>
+            <!--<xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+                <field name="uom_length" invisible="True"/>
+                <field name="uom_width" invisible="True"/>
+                <field name="uom_height" invisible="True"/>
+                <field name="length" attrs="{'readonly':[('uom_length','=',False)]}"/>
+                <field name="width" attrs="{'readonly':[('uom_width','=',False)]}"/>
+                <field name="height" attrs="{'readonly':[('uom_height','=',False)]}"/>
+                <field name="volume"/>
+            </xpath>-->
+        </field>
+    </record>
+
+    <record id="view_product_template_dimension" model="ir.ui.view">
+        <field name="name">product.template.dimension</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='attribute_line_ids']" position="before">
+                <group>
+                    <field name="length"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_form_inherit_purchase_dimension" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="after">
+                <field name="uom_length" invisible="True"/>
+                <field name="uom_width" invisible="True"/>
+                <field name="uom_height" invisible="True"/>
+                <field name="length" attrs="{'readonly':[('uom_length','=',False)]}"/>
+                <!--<field name="length" readonly="1"/>-->
+                <field name="width" attrs="{'readonly':[('uom_width','=',False)]}"/>
+                <field name="height" attrs="{'readonly':[('uom_height','=',False)]}"/>
+                <field name="volume"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+                <field name="uom_length" invisible="True"/>
+                <field name="uom_width" invisible="True"/>
+                <field name="uom_height" invisible="True"/>
+                <field name="length" attrs="{'readonly':[('uom_length','=',False)]}"/>
+                <!--<field name="length" readonly="1"/>-->
+                <field name="width" attrs="{'readonly':[('uom_width','=',False)]}"/>
+                <field name="height" attrs="{'readonly':[('uom_height','=',False)]}"/>
+                <field name="volume"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="before">
+                <field name="product_template" context="{'partner_id': parent.partner_id}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="before">
+                <field name="product_template" attrs="{'readonly': [('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}" context="{'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_uom_product_dimension_form">
+        <field name="name">product.uom.product.dimension.form</field>
+        <field name="model">uom.uom</field>
+        <field name="inherit_id" ref="uom.product_uom_form_view"/>
+        <field name="arch" type="xml">
+            <field name="rounding" position="after">
+                <field name="is_enable"/>
+                <field name="length" attrs="{'invisible':[('is_enable','=',False)]}"/>
+                <field name="width" attrs="{'invisible':[('is_enable','=',False)]}"/>
+                <field name="height" attrs="{'invisible':[('is_enable','=',False)]}"/>
+            </field>
+        </field>
+    </record>
+</data>
+</odoo>

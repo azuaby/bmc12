@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- inherit product template form -->
+    	<record id="product_template_form_view_it_inherit" model="ir.ui.view">
+            <field name="name">product.template.common.form.it.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"></field>
+            <field name="arch" type="xml">
+            	<div name="button_box" position="inside">
+                    <button type="object"
+                        name="action_open_quants"
+                        attrs="{'invisible':[('type', '!=', 'product')]}"
+                        class="oe_stat_button" icon="fa-th"
+                        groups="product.group_uom">
+                        <field name="sec_qty_available" widget="statinfo" string="On Hand-Sec. UOM"/>
+                    </button>
+                    <button type="action"
+                        name="%(stock.action_stock_level_forecast_report_template)d"
+                        attrs="{'invisible':[('type', '!=', 'product')]}"
+                        class="oe_stat_button" icon="fa-th"
+                        groups="product.group_uom">
+                        <div class="o_form_field o_stat_info">
+                        <field name="sec_qty_forecast" widget="statinfo" string="Forecasted-Sec. UOM"/>
+                        </div>
+                    </button>
+                </div>
+            	<field name="uom_id" position="after">
+            		<field name="uom_categ_id" invisible="1"/>
+            		<field name="sec_uom_id"  domain="[('category_id','=',uom_categ_id)]"/>
+            	</field>
+            </field>
+        </record>
+    </data>
+</odoo>

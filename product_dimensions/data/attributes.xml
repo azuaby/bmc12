@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_attribute_dimensions" model="product.attribute">
+            <field name="name">Dimensions</field>
+        </record>
+
+    </data>
+</odoo>
