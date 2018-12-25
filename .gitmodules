@@ -1,0 +1,4 @@
+[submodule "azuaby/bmc12"]
+	path = azuaby/bmc12
+	url = git@github.com:azuaby/bmc12.git
+	branch = custom
